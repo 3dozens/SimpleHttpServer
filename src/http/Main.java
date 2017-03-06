@@ -15,7 +15,16 @@ public class Main {
 				Socket socket = server.accept(); // このメソッドはブロッキング処理なので、接続があるまでプログラムはこの場所で停止する。
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 				) {
-			in.lines().forEach(System.out::println);
+			String line = in.readLine();
+			StringBuilder header = new StringBuilder();
+			
+			while (line != null && !line.isEmpty()) {
+				header.append(line + "\n");
+				line = in.readLine();
+			}
+			
+			System.out.println(header);
 		}
+		System.out.println("<<< end");
 	}
 }
