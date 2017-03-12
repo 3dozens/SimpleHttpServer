@@ -1,5 +1,7 @@
 package http;
 
+import static http.Constant.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +11,6 @@ import java.util.Arrays;
 
 public class HttpRequest {
 
-	public static final String CRLF = "\r\n";
-	
 	private final String headerText;
 	private final String bodyText;
 	
