@@ -1,7 +1,6 @@
 package http;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,17 +12,13 @@ public class Main {
 		try (
 				ServerSocket server = new ServerSocket(8080);
 				Socket socket = server.accept(); // このメソッドはブロッキング処理なので、接続があるまでプログラムはこの場所で停止する。
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+				InputStream in = socket.getInputStream();
 				) {
-			String line = in.readLine();
-			StringBuilder header = new StringBuilder();
+				
+			HttpRequest request = new HttpRequest(in);
 			
-			while (line != null && !line.isEmpty()) {
-				header.append(line + "\n");
-				line = in.readLine();
-			}
-			
-			System.out.println(header);
+			System.out.println(request.getHeaderText());
+			System.out.println(request.getBodyText());
 		}
 		System.out.println("<<< end");
 	}
