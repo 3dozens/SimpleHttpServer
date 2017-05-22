@@ -42,8 +42,8 @@ public class IOUtil {
 			
 			int size = list.size();
 			if (2 <= size) {
-				char cr = (char)list.get(-2).byteValue();
-				char lf = (char)list.get(-1).byteValue();
+				char cr = (char)list.get(size - 2).byteValue();
+				char lf = (char)list.get(size - 1).byteValue();
 				
 				if (cr == '\r' && lf == '\n') {
 					break;
