@@ -3,11 +3,14 @@ package http;
 import static http.Constant.CRLF;
 
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpHeader {
 	
+	private HttpMethod method;
+	private String path;
 	private final String headerText;
 	private Map<String, String> messageHeaders = new HashMap<>();
 	
@@ -21,7 +24,13 @@ public class HttpHeader {
 	}
 	
 	private String readRequestLine(InputStream in) throws Exception {
-		return IOUtil.readLine(in) + CRLF;
+		String requestLine = IOUtil.readLine(in) + CRLF;
+		
+		String[] tmp = requestLine.split(" ");
+		this.method = HttpMethod.valueOf(tmp[0].toUpperCase());
+		this.path = URLDecoder.decode(tmp[1], "UTF-8");
+		
+		return requestLine + CRLF;
 	}
 	
 	private StringBuilder readMessageLine(InputStream in) throws Exception {
@@ -56,6 +65,14 @@ public class HttpHeader {
 	
 	public boolean isChunkedTransfer() {
 		return this.messageHeaders.getOrDefault("Transfer-Encoding", "-").equals("chunked");
+	}
+	
+	public boolean isGetMethod() {
+		return this.method == HttpMethod.GET;
+	}
+
+	public String getPath() {
+		return this.path;
 	}
 	
 }
