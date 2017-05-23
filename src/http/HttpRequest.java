@@ -58,6 +58,10 @@ public class HttpRequest {
 		return IOUtil.toString(buffer);
 	}
 	
+	public HttpHeader getHeader() {
+		return this.header;
+	}
+	
 	public String getHeaderText() {
 		return this.header.getText();
 	}
